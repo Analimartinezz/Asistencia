@@ -1,0 +1,95 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background:#f2f2f2;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.contenedor{
+    width:500px;
+    background:white;
+    border:2px solid #777;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.titulo{
+    text-align:center;
+    padding:20px;
+    border-bottom:2px solid #777;
+}
+
+.titulo h2{
+    color:#3b82f6;
+}
+
+.fecha{
+    text-align:center;
+    margin:20px;
+}
+
+.fecha input{
+    padding:8px;
+    border:1px solid #999;
+    border-radius:8px;
+}
+
+.boton-centro{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+button{
+    background:#f7caca;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#f3b1b1;
+}
+
+h3{
+    text-align:center;
+    color:green;
+    margin:20px;
+}
+
+table{
+    width:85%;
+    margin:0 auto;
+    border-collapse:collapse;
+}
+
+table, th, td{
+    border:1px solid #777;
+}
+
+th{
+    background:#f5f5f5;
+    padding:10px;
+}
+
+td{
+    padding:15px;
+}
+
+.guardar{
+    text-align:center;
+    margin:30px 0;
+}
+
+hr{
+    border:1px solid #999;
+}
