@@ -1,85 +1,168 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Sistema de Asistencia</title>
+    <title>Registro de Alumnos</title>
 
-<link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/w3.css">
 
-<style>
+    <style>
 
-body{
-    background:#f5f5f5;
-}
+        body{
+            background:#f5f5f5;
+        }
 
-/* Barra superior */
-.topbar{
-    background:#0D47A1;
-    color:white;
-}
+        /* Barra superior */
+        .topbar{
+            background:#0D47A1;
+            color:white;
+        }
+        
 
-/* Tarjetas */
-.tarjeta{
-    background:white;
-    border-radius:20px;
-    padding:25px;
-    min-height:260px;
-    text-align:center;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
-}
+        .icono{
+            font-size:50px;
+        }
 
-.tarjeta:hover{
-    transform:translateY(-5px);
-}
+        .boton{
+            background:#FFC107;
+            color:black;
+            border-radius:10px;
+        }
 
-.numero{
-    font-size:50px;
-    font-weight:bold;
-    color:#0D47A1;
-}
+        .usuario-img{
+            width:40px;
+            height:40px;
+            border-radius:50%;
+            margin-left:5px;
+        }
 
-.icono{
-    font-size:50px;
-}
+        /* Contenedor principal */
+        .contenedor-boceto{
+            width:90%;
+            max-width:1200px;
+            margin:40px auto;
+            background:white;
+            border-radius:25px;
+            padding:30px;
+            display:flex;
+            gap:25px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.1);
+        }
 
-.boton{
-    background:#FFC107;
-    color:black;
-    border-radius:10px;
-}
+        /* Formulario 50% */
+        .panel-formulario{
+            flex:1;
+            border:2px solid #ddd;
+            border-radius:20px;
+            padding:25px;
+            box-sizing:border-box;
+        }
 
-.usuario-img{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    margin-left:5px;
-}
+        .panel-formulario h4{
+            margin-top:0;
+            text-align:center;
+            color:#0D47A1;
+        }
 
-</style>
+        .panel-formulario label{
+            font-weight:bold;
+        }
+
+        .panel-formulario input{
+            width:100%;
+            border-radius:10px !important;
+        }
+
+        /* Tabla 50% */
+        .panel-tabla{
+            flex:1;
+            border:2px solid #ddd;
+            border-radius:20px;
+            padding:25px;
+            box-sizing:border-box;
+        }
+
+        .busqueda{
+            display:flex;
+            gap:10px;
+            align-items:center;
+            margin-bottom:20px;
+        }
+
+        .busqueda input{
+            flex:1;
+            height:40px;
+            border-radius:10px !important;
+        }
+
+        .btn-agregar{
+            width:50px;
+            height:40px;
+            border-radius:10px;
+        }
+
+        .tabla-alumnos{
+            width:100%;
+            table-layout:fixed;
+        }
+
+        .tabla-alumnos th,
+        .tabla-alumnos td{
+            padding:12px;
+            text-align:center;
+            vertical-align:middle;
+        }
+
+        .tabla-alumnos th{
+            background:#0D47A1;
+            color:white;
+        }
+
+        .acciones{
+            white-space:nowrap;
+        }
+
+        .acciones button{
+            margin:0 2px;
+        }
+
+        /* Responsive */
+        @media (max-width:768px){
+
+            .contenedor-boceto{
+                flex-direction:column;
+            }
+
+            .panel-formulario,
+            .panel-tabla{
+                width:100%;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<!-- Barra superior -->
-<div class="w3-bar topbar">
+    <!-- Barra Superior -->
+    <div class="w3-bar topbar">
 
-    <button class="w3-bar-item w3-button w3-large"
-            onclick="abrirMenu()">
-        ☰
-    </button>
+        <button class="w3-bar-item w3-button w3-large"
+                onclick="abrirMenu()">
+            ☰
+        </button>
 
-    <span class="w3-bar-item">
-        <b>SISTEMA DE ASISTENCIA</b>
-    </span>
+        <span class="w3-bar-item">
+            <b>SISTEMA DE ASISTENCIA</b>
+        </span>
 
-    <div class="w3-right">
-
-        <div class="w3-dropdown-hover">
+        <div class="w3-right">
 
             <button class="w3-button topbar">
-                 Administrador
+
+                Administrador
 
                 <img
                 src="https://www.w3schools.com/w3images/avatar2.png"
@@ -87,10 +170,127 @@ body{
 
             </button>
 
-            <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        </div>
 
-                <a href="perfil.html" class="w3-bar-item w3-button"> Mi Perfil </a>
-                <a href="#" class="w3-bar-item w3-button"> Cerrar Sesión </a>
+    </div>
+
+    <!-- Menú lateral -->
+    <div id="menu"
+         class="w3-sidebar w3-bar-block w3-card w3-animate-left"
+         style="display:none;width:250px;">
+
+        <button class="w3-bar-item w3-button"
+                onclick="cerrarMenu()">
+            × Cerrar
+        </button>
+
+        <a href="principal.html" class="w3-bar-item w3-button">🏠 Inicio</a>
+        <a href="registroAlumno.html" class="w3-bar-item w3-button">👨‍🎓 Alumnos</a>
+        <a href="Asistencia.html" class="w3-bar-item w3-button">✅ Asistencia</a>
+        <a href="participaciones.html" class="w3-bar-item w3-button">📋 Participación</a>
+        <a href="Consultas.html" class="w3-bar-item w3-button">🔍 Consultas</a>
+
+    </div>
+
+    <div class="w3-container">
+
+        <h2 class="w3-center" style="margin-top:30px;">
+            Registro de Alumnos
+        </h2>
+
+        <div class="contenedor-boceto">
+
+            <!-- Formulario -->
+            <div class="panel-formulario">
+
+                <h4>Alumno</h4>
+
+                <label>Nombre</label>
+                <input
+                    type="text"
+                    class="w3-input w3-border"
+                    placeholder="Ingrese nombre">
+
+                <br>
+
+                <label>Matrícula</label>
+                <input
+                    type="text"
+                    class="w3-input w3-border"
+                    placeholder="Ingrese matrícula">
+
+                <br><br>
+
+                <div class="w3-center">
+
+                    <button class="w3-button boton">
+                        Guardar
+                    </button>
+
+                    <button class="w3-button w3-light-grey">
+                        ✏️ Editar
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Tabla -->
+            <div class="panel-tabla">
+
+                <div class="busqueda">
+
+                    <input
+                        type="text"
+                        class="w3-input w3-border"
+                        placeholder="Buscar alumno...">
+
+                    <button class="w3-button w3-blue btn-agregar">
+                        +
+                    </button>
+
+                </div>
+
+                <table class="w3-table-all tabla-alumnos">
+
+                    <thead>
+                        <tr>
+                            <th style="width:10%;">ID</th>
+                            <th style="width:50%;">Nombre</th>
+                            <th style="width:20%;">Matrícula</th>
+                            <th style="width:20%;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Myha García</td>
+                            <td>2025001</td>
+                            <td class="acciones">
+                                <button class="w3-button w3-small w3-orange">✏️</button>
+                                <button class="w3-button w3-small w3-red">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Carmen Mora</td>
+                            <td>2025002</td>
+                            <td class="acciones">
+                                <button class="w3-button w3-small w3-orange">✏️</button>
+                                <button class="w3-button w3-small w3-red">🗑️</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Miguel Pérez</td>
+                            <td>2025003</td>
+                            <td class="acciones">
+                                <button class="w3-button w3-small w3-orange">✏️</button>
+                                <button class="w3-button w3-small w3-red">🗑️</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
 
@@ -98,51 +298,17 @@ body{
 
     </div>
 
-</div>
+    <script>
 
-<!-- Menú lateral -->
-<div id="menu"
-     class="w3-sidebar w3-bar-block w3-card w3-animate-left"
-     style="display:none;width:250px;">
+        function abrirMenu(){
+            document.getElementById("menu").style.display = "block";
+        }
 
-    <button class="w3-bar-item w3-button w3-large" onclick="cerrarMenu()"> × Cerrar </button>
+        function cerrarMenu(){
+            document.getElementById("menu").style.display = "none";
+        }
 
-    <a href="principal.html"class="w3-bar-item w3-button">🏠 Inicio </a>
-    <a href="registroAlumno.html" class="w3-bar-item w3-button"> 👨‍🎓 Alumnos </a>
-    <a href="Asistencia.html" class="w3-bar-item w3-button"> ✅ Asistencia </a>
-    <a href="participaciones.html" class="w3-bar-item w3-button">📋 Participación </a>
-    <a href="Consultas.html" class="w3-bar-item w3-button"> 🔍 Consultas </a>
-
-</div>
-
-<!-- Contenido -->
-<div class="w3-container "style="padding:30px 70px;">
-    <p>REGISTRAR ALUMNO</p>
-
-</div>
-
-<script>
-
-function abrirMenu(){
-    document.getElementById("menu").style.display="block";
-}
-
-function cerrarMenu(){
-    document.getElementById("menu").style.display="none";
-}
-
-document.getElementById("fechaActual").textContent =
-new Date().toLocaleDateString(
-    "es-ES",
-    {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    }
-);
-
-</script>
+    </script>
 
 </body>
 </html>
