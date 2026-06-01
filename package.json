@@ -12,5 +12,13 @@
   "license": "ISC",
   "dependencies": {
     "express": "^5.2.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Analimartinezz/Asistencia.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Analimartinezz/Asistencia/issues"
+  },
+  "homepage": "https://github.com/Analimartinezz/Asistencia#readme"
 }
