@@ -89,7 +89,7 @@ body{
 
             <div class="w3-dropdown-content w3-bar-block w3-card-4">
 
-                <a href="#" class="w3-bar-item w3-button"> Mi Perfil </a>
+                <a href="perfil.html" class="w3-bar-item w3-button"> Mi Perfil </a>
                 <a href="#" class="w3-bar-item w3-button"> Cerrar Sesión </a>
 
             </div>
@@ -117,8 +117,78 @@ body{
 
 <!-- Contenido -->
 <div class="w3-container "style="padding:30px 70px;">
-    <p>CONSULTAS</p>
+    <div class="w3-container" style="padding:30px 70px;">
 
+    <h2>Consultas</h2>
+
+    <div class="w3-card w3-white w3-padding w3-round-large">
+
+        <div class="w3-row-padding">
+
+            <div class="w3-third">
+                <label><b>Buscar alumno</b></label>
+                <input class="w3-input w3-border"
+                       type="text"
+                       placeholder="Nombre del alumno">
+            </div>
+
+            <div class="w3-third">
+                <label><b>Fecha</b></label>
+                <input class="w3-input w3-border"
+                       type="date">
+            </div>
+
+            <div class="w3-third">
+                <label><b>Tipo</b></label>
+                <select class="w3-select w3-border">
+                    <option value="">Todos</option>
+                    <option>Asistencia</option>
+                    <option>Participación</option>
+                </select>
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="w3-button boton">
+            Buscar
+        </button>
+
+    </div>
+
+    <br>
+
+    <div class="w3-card w3-white w3-padding w3-round-large">
+
+        <table class="w3-table-all">
+
+            <tr>
+                <th>Alumno</th>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+            </tr>
+
+            <tr>
+                <td>Juan</td>
+                <td>10/05/2025</td>
+                <td>Asistencia</td>
+                <td>Presente</td>
+            </tr>
+
+            <tr>
+                <td>María</td>
+                <td>10/05/2025</td>
+                <td>Participación</td>
+                <td>Opinión</td>
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
 </div>
 
 <script>
