@@ -1,12 +1,80 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <p>Registrarse para inicio de sesion AL GUSTO</p>
-        
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Clase - Crear Cuenta</title>
+    <link rel="stylesheet" href="css/w3.css">
+    <style>
+        body { background: #f5f5f5; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .register-card { width: 100%; max-width: 450px; background: white; border: 1px solid #ccc; border-radius: 20px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .input-contenedor { position: relative; margin-bottom: 15px; }
+        .input-contenedor input { padding-left: 45px; padding-right: 40px; border-radius: 10px; height: 42px; }
+        .input-icono-left { position: absolute; left: 15px; top: 10px; color: #757575; font-size: 16px; }
+        .input-icono-right { position: absolute; right: 15px; top: 10px; color: #757575; cursor: pointer; }
+        .btn-register { background: #4CAF50; color: white; font-weight: bold; border-radius: 10px; height: 45px; transition: 0.3s; }
+        .btn-register:hover { background: #43a047 !important; }
+    </style>
+</head>
+<body>
+
+<div class="register-card w3-center">
+    <div class="w3-margin-bottom" style="font-size: 45px; line-height: 1;">🎓</div>
+    <h3 class="w3-text-blue-grey" style="font-weight: bold; margin: 0;">Crear cuenta</h3>
+    <p class="w3-text-grey" style="font-size: 13px; margin-top: 5px;">Completa los siguientes datos para registrarte</p>
+    <hr style="border-top: 1px solid #eee; margin: 15px 0;">
+
+    <form action="/iniciar.html" method="GET">
+        <div class="w3-left-align w3-margin-bottom">
+            <label class="w3-text-grey"><b>Nombre completo</b></label>
+            <div class="input-contenedor">
+                <span class="input-icono-left">👤</span>
+                <input class="w3-input w3-border" type="text" placeholder="Ej. Juan Pérez" required>
+            </div>
+        </div>
+
+        <div class="w3-left-align w3-margin-bottom">
+            <label class="w3-text-grey"><b>Correo electrónico</b></label>
+            <div class="input-contenedor">
+                <span class="input-icono-left">✉️</span>
+                <input class="w3-input w3-border" type="email" placeholder="ejemplo@institucion.edu" required>
+            </div>
+        </div>
+
+        <div class="w3-left-align" style="margin-bottom: 5px;">
+            <label class="w3-text-grey"><b>Contraseña</b></label>
+            <div class="input-contenedor" style="margin-bottom: 0;">
+                <span class="input-icono-left">🔒</span>
+                <input class="w3-input w3-border" id="passReg" type="password" placeholder="********" minlength="8" required>
+                <span class="input-icono-right" onclick="conmutarContrasena('passReg')">👁️</span>
+            </div>
+            <small class="w3-text-grey">Mínimo 8 caracteres</small>
+        </div>
+
+        <div class="w3-left-align w3-margin-bottom" style="margin-top: 10px;">
+            <label class="w3-text-grey"><b>Confirmar contraseña</b></label>
+            <div class="input-contenedor">
+                <span class="input-icono-left">🔒</span>
+                <input class="w3-input w3-border" id="passConfirm" type="password" placeholder="********" minlength="8" required>
+                <span class="input-icono-right" onclick="conmutarContrasena('passConfirm')">👁️</span>
+            </div>
+        </div>
+
+        <button type="submit" class="w3-button w3-block btn-register w3-margin-top">
+            Crear cuenta
+        </button>
+    </form>
+
+    <p class="w3-margin-top w3-text-grey" style="font-size: 14px;">
+        ¿Ya tienes una cuenta? <a href="iniciar.html" class="w3-text-blue" style="text-decoration: none; font-weight: bold;">Iniciar sesión</a>
+    </p>
+</div>
+
+<script>
+function conmutarContrasena(idInput) {
+    const input = document.getElementById(idInput);
+    input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+</body>
+</html>

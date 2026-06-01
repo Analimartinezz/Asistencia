@@ -1,14 +1,63 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-    </head>
-    <body>
-        <P>Iniciar Sesion  AL GUSTO
-            
-        </P>
-        
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Clase - Iniciar Sesión</title>
+    <link rel="stylesheet" href="css/w3.css">
+    <style>
+        body { background: #f5f5f5; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
+        .login-card { width: 100%; max-width: 450px; background: white; border: 1px solid #ccc; border-radius: 20px; padding: 40px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .input-contenedor { position: relative; margin-bottom: 20px; }
+        .input-contenedor input { padding-left: 45px; padding-right: 40px; border-radius: 10px; height: 45px; }
+        .input-icono-left { position: absolute; left: 15px; top: 12px; color: #757575; font-size: 18px; }
+        .input-icono-right { position: absolute; right: 15px; top: 12px; color: #757575; cursor: pointer; }
+        .btn-login { background: #0D47A1; color: white; font-weight: bold; border-radius: 10px; height: 45px; transition: 0.3s; }
+        .btn-login:hover { background: #0b3c8f !important; }
+    </style>
+</head>
+<body>
+
+<div class="login-card w3-center">
+    <div class="w3-margin-bottom" style="font-size: 50px; line-height: 1;">🎓</div>
+    <h3 class="w3-text-blue-grey" style="font-weight: bold; margin-top: 5px;">Sistema Web de Control de Clase</h3>
+    <hr style="border-top: 1px solid #eee; margin: 20px 0;">
+    
+    <h4 style="font-weight: bold;" class="w3-margin-bottom">Iniciar sesión</h4>
+
+    <form action="/principal.html" method="GET">
+        <div class="w3-left-align w3-margin-bottom">
+            <label class="w3-text-grey"><b>Correo electrónico</b></label>
+            <div class="input-contenedor">
+                <span class="input-icono-left">✉️</span>
+                <input class="w3-input w3-border" type="email" placeholder="ejemplo@institucion.edu" required>
+            </div>
+        </div>
+
+        <div class="w3-left-align w3-margin-bottom">
+            <label class="w3-text-grey"><b>Contraseña</b></label>
+            <div class="input-contenedor">
+                <span class="input-icono-left">🔒</span>
+                <input class="w3-input w3-border" id="passLogin" type="password" placeholder="********" required>
+                <span class="input-icono-right" onclick="conmutarContrasena('passLogin')">👁️</span>
+            </div>
+        </div>
+
+        <button type="submit" class="w3-button w3-block btn-login w3-margin-top">
+            Iniciar sesión
+        </button>
+    </form>
+
+    <p class="w3-margin-top w3-text-grey" style="font-size: 14px;">
+        ¿No tienes una cuenta? <a href="registrarse.html" class="w3-text-blue" style="text-decoration: none; font-weight: bold;">Registrarse</a>
+    </p>
+</div>
+
+<script>
+function conmutarContrasena(idInput) {
+    const input = document.getElementById(idInput);
+    input.type = input.type === "password" ? "text" : "password";
+}
+</script>
+</body>
+</html>
