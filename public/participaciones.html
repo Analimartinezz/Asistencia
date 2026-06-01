@@ -57,7 +57,7 @@
             margin-left:5px;
         }
 
-        /* Ajustes específicos para que la tabla y modales combinen con tu paleta */
+        /* Estilos de la sección de participaciones */
         .btn-agregar {
             background: #FFC107;
             color: black;
@@ -85,6 +85,7 @@
 <body>
 
 <div class="w3-bar topbar">
+
     <button class="w3-bar-item w3-button w3-large" onclick="abrirMenu()">
         ☰
     </button>
@@ -94,7 +95,9 @@
     </span>
 
     <div class="w3-right">
+
         <div class="w3-dropdown-hover">
+
             <button class="w3-button topbar">
                  Administrador
                 <img src="https://www.w3schools.com/w3images/avatar2.png" class="usuario-img">
@@ -102,25 +105,34 @@
 
             <div class="w3-dropdown-content w3-bar-block w3-card-4">
                 <a href="perfil.html" class="w3-bar-item w3-button"> Mi Perfil </a>
-                <a href="#" class="w3-bar-item w3-button"> Cerrar Sesión </a>
+                <a href="iniciar.html" class="w3-bar-item w3-button w3-text-red"> Cerrar Sesión </a>
             </div>
+
         </div>
+
     </div>
+
 </div>
 
 <div id="menu" class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none;width:250px; z-index: 5;">
+
     <button class="w3-bar-item w3-button w3-large" onclick="cerrarMenu()"> × Cerrar </button>
+
     <a href="principal.html" class="w3-bar-item w3-button">🏠 Inicio </a>
     <a href="registroAlumno.html" class="w3-bar-item w3-button"> 👨‍🎓 Alumnos </a>
     <a href="Asistencia.html" class="w3-bar-item w3-button"> ✅ Asistencia </a>
     <a href="participaciones.html" class="w3-bar-item w3-button w3-light-grey">📋 Participación </a>
     <a href="Consultas.html" class="w3-bar-item w3-button"> 🔍 Consultas </a>
+    
+    <hr style="margin: 10px 0; border-top: 1px solid #eee;">
+    <a href="iniciar.html" class="w3-bar-item w3-button w3-text-red"> Enlace Cerrar Sesión </a>
+
 </div>
 
 <div class="w3-container" style="padding:30px 70px;">
     
     <h2 class="w3-text-blue-grey" style="font-weight: bold; letter-spacing: 1px;">
-        Participaciones
+        PARTICIPACIONES
     </h2>
     <hr style="border-top: 2px solid #0D47A1; width: 60px; margin-top: 0;">
 
@@ -202,7 +214,7 @@
             <input class="w3-input w3-border w3-round w3-margin-bottom" type="text" placeholder="Agregar participación">
             
             <label class="w3-text-grey"><b>Fecha</b></label>
-            <input class="w3-input w3-border w3-round w3-margin-bottom" type="date" value="2026-05-11">
+            <input class="w3-input w3-border w3-round w3-margin-bottom" type="date" id="fechaActual">
             
             <div class="w3-margin-top w3-right-align">
                 <button onclick="cerrarModal('modalAgregar')" class="w3-button w3-border w3-round-large w3-margin-right">Cerrar</button>
@@ -258,6 +270,9 @@ function abrirModal(idModal) {
 function cerrarModal(idModal) {
     document.getElementById(idModal).style.display = 'none';
 }
+
+// Colocar la fecha por defecto en el campo correspondiente
+document.getElementById("fechaActual").value = new Date().toISOString().split('T')[0];
 </script>
 
 </body>
