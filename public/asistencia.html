@@ -1,77 +1,142 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Asistencia</title>
-    <link rel="stylesheet" href="estilos.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Sistema de Asistencia</title>
+
+<link rel="stylesheet" href="css/w3.css">
+
+<style>
+
+body{
+    background:#f5f5f5;
+}
+
+/* Barra superior */
+.topbar{
+    background:#0D47A1;
+    color:white;
+}
+
+/* Tarjetas */
+.tarjeta{
+    background:white;
+    border-radius:20px;
+    padding:25px;
+    min-height:260px;
+    text-align:center;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.tarjeta:hover{
+    transform:translateY(-5px);
+}
+
+.numero{
+    font-size:50px;
+    font-weight:bold;
+    color:#0D47A1;
+}
+
+.icono{
+    font-size:50px;
+}
+
+.boton{
+    background:#FFC107;
+    color:black;
+    border-radius:10px;
+}
+
+.usuario-img{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    margin-left:5px;
+}
+
+</style>
 </head>
 <body>
 
-<div class="contenedor">
+<!-- Barra superior -->
+<div class="w3-bar topbar">
 
-    <div class="titulo">
-        <h2>Pantalla de asistencia</h2>
-    </div>
+    <button class="w3-bar-item w3-button w3-large"
+            onclick="abrirMenu()">
+        ☰
+    </button>
 
-    <div class="fecha">
-        <label>Fecha:</label>
-        <input type="date" value="2025-05-10">
-    </div>
+    <span class="w3-bar-item">
+        <b>SISTEMA DE ASISTENCIA</b>
+    </span>
 
-    <div class="boton-centro">
-        <button>Tomar asistencia</button>
-    </div>
+    <div class="w3-right">
 
-    <hr>
+        <div class="w3-dropdown-hover">
 
-    <h3>Tabla de alumnos</h3>
+            <button class="w3-button topbar">
+                 Administrador
 
-    <table>
-        <thead>
-            <tr>
-                <th>Alumno</th>
-                <th>Asistencia</th>
-            </tr>
-        </thead>
+                <img
+                src="https://www.w3schools.com/w3images/avatar2.png"
+                class="usuario-img">
 
-        <tbody>
-            <tr>
-                <td>Juan Pérez</td>
-                <td>
-                    <label>
-                        <input type="radio" name="juan" checked>
-                        Presente
-                    </label><br>
+            </button>
 
-                    <label>
-                        <input type="radio" name="juan">
-                        Falta
-                    </label>
-                </td>
-            </tr>
+            <div class="w3-dropdown-content w3-bar-block w3-card-4">
 
-            <tr>
-                <td>María López</td>
-                <td>
-                    <label>
-                        <input type="radio" name="maria">
-                        Presente
-                    </label><br>
+                <a href="perfil.html" class="w3-bar-item w3-button"> Mi Perfil </a>
+                <a href="#" class="w3-bar-item w3-button"> Cerrar Sesión </a>
 
-                    <label>
-                        <input type="radio" name="maria" checked>
-                        Falta
-                    </label>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+            </div>
 
-    <div class="guardar">
-        <button>Guardar asistencia</button>
+        </div>
+
     </div>
 
 </div>
 
+<!-- Menú lateral -->
+<div id="menu"
+     class="w3-sidebar w3-bar-block w3-card w3-animate-left"
+     style="display:none;width:250px;">
+
+    <button class="w3-bar-item w3-button w3-large" onclick="cerrarMenu()"> × Cerrar </button>
+
+    <a href="principal.html"class="w3-bar-item w3-button">🏠 Inicio </a>
+    <a href="registroAlumno.html" class="w3-bar-item w3-button"> 👨‍🎓 Alumnos </a>
+    <a href="Asistencia.html" class="w3-bar-item w3-button"> ✅ Asistencia </a>
+    <a href="participaciones.html" class="w3-bar-item w3-button">📋 Participación </a>
+    <a href="Consultas.html" class="w3-bar-item w3-button"> 🔍 Consultas </a>
+
+</div>
+
+<!-- Contenido -->
+<div class="w3-container "style="padding:30px 70px;">
+
+    <H1>APARTADO DE ASISTENCIA</H1>
+
+
+</div>
+
+<script>
+
+function abrirMenu(){
+    document.getElementById("menu").style.display="block";
+}
+
+function cerrarMenu(){
+    document.getElementById("menu").style.display="none";
+}
+
+
+
+
+</script>
+
 </body>
+</html>
