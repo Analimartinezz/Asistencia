@@ -101,11 +101,21 @@ git checkout rama
 # una vez lista una característica o un isues
 
 # 3. Commitear cambios
-git add .
+git add . 
 git commit -m "mensaje"
 
 git pull origin rama
 # 4. Subir cambios al remoto
 git push origin rama
 ```
-
+## Para ver el estado del archivo que se modifico si el git en la 3 de arriba no sube  o reconoce el archivo usar git status 
+```sh
+# 1.  ver el archivo modificado
+git status 
+# 2.  commitiar cambios
+git add . 
+git commit -m "mensaje"
+git pull origin rama
+# 4. Subir cambios al remoto 
+git push origin rama
+```
