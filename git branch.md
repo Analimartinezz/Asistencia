@@ -110,6 +110,12 @@ git push origin rama
 ```
 ## Para ver el estado del archivo (si no funciona con el add .)
 ```sh
-git status  -archivo que fue modificado
+# 1.  ver el archivo modificado
+git status 
+# 2.  ver el archivo modificado
 git commit -m "mensaje"
+# 2.  si hay nuevos cambios los trae
+git pull origin rama
+# 4. Subir cambios al remoto 
+git push origin rama
 ```
