@@ -108,13 +108,13 @@ git pull origin rama
 # 4. Subir cambios al remoto
 git push origin rama
 ```
-## Para ver el estado del archivo (si no funciona con el add .)
+## Para ver el estado del archivo que se modifico si el git en la 3 de arriba no sube  o reconoce el archivo usar git status 
 ```sh
 # 1.  ver el archivo modificado
 git status 
-# 2.  ver el archivo modificado
+# 2.  commitiar cambios
+git add . 
 git commit -m "mensaje"
-# 2.  si hay nuevos cambios los trae
 git pull origin rama
 # 4. Subir cambios al remoto 
 git push origin rama
