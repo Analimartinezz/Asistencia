@@ -99,24 +99,32 @@ body{
 
     <h2 class="w3-center">Mi Perfil</h2>
 
-    <p><b>Nombre:</b> Administrador</p>
+    <p><b>Nombre:</b>
+    <span id="nombreUsuario">Administrador</span>
+    </p>
 
-    <p><b>Correo:</b> administrador@escuela.com</p>
+    <p><b>Correo:</b>
+    <span id="correoUsuario">administrador@escuela.com</span>
+    </p>
 
-    <p><b>Rol:</b> Profesor</p>
+    <p><b>Rol:</b>
+    <span id="rolUsuario">Profesor</span>
+    </p>
 
     <br>
 
-    <button class="w3-button w3-blue w3-round">
-        Editar Perfil
-    </button>
+    <a href="editarPerfil.html"
+   class="w3-button w3-blue w3-round">
+    Editar Perfil
+    </a>
 
-    <button class="w3-button w3-red w3-round">
-        Cerrar Sesión
-    </button>
+    <a href="iniciar.html"
+   class="w3-button w3-red w3-round">
+   Cerrar Sesión
+   </a>
 
 </div>
-
+<!--Menu-->
 <script>
 
 function abrirMenu(){
@@ -128,6 +136,23 @@ function cerrarMenu(){
 }
 
 </script>
+<script>
 
+fetch('/perfilDB')
+.then(res => res.json())
+.then(usuario => {
+
+    document.getElementById('nombreUsuario')
+        .textContent = usuario.nombre;
+
+    document.getElementById('correoUsuario')
+        .textContent = usuario.correo;
+
+    document.getElementById('rolUsuario')
+        .textContent = usuario.rol;
+
+});
+
+</script>
 </body>
 </html>

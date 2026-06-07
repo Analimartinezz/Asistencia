@@ -21,7 +21,7 @@ body{
 }
 
 /* Tarjetas */
-.tarjeta{
+.tarjeta{ 
     background:white;
     border-radius:20px;
     padding:25px;
@@ -90,7 +90,7 @@ body{
             <div class="w3-dropdown-content w3-bar-block w3-card-4">
 
                 <a href="perfil.html" class="w3-bar-item w3-button"> Mi Perfil </a>
-                <a href="#" class="w3-bar-item w3-button"> Cerrar Sesión </a>
+                <a href="iniciar.html" class="w3-bar-item w3-button"> Cerrar Sesión </a>
 
             </div>
 
@@ -99,7 +99,7 @@ body{
     </div>
 
 </div>
-
+<!--FIN_Interfaz_Azul-->
 <!-- Menú lateral -->
 <div id="menu"
      class="w3-sidebar w3-bar-block w3-card w3-animate-left"
@@ -127,20 +127,24 @@ body{
 
             <div class="w3-third">
                 <label><b>Buscar alumno</b></label>
-                <input class="w3-input w3-border"
-                       type="text"
-                       placeholder="Nombre del alumno">
+                <input id="buscarAlumno"
+                class="w3-input w3-border"
+                type="text"
+                placeholder="Nombre del alumno">
             </div>
 
             <div class="w3-third">
                 <label><b>Fecha</b></label>
-                <input class="w3-input w3-border"
-                       type="date">
+                <input id="fechaFiltro"
+                class="w3-input w3-border"
+                type="date">
             </div>
 
             <div class="w3-third">
                 <label><b>Tipo</b></label>
-                <select class="w3-select w3-border">
+                <select id="tipoFiltro"
+                 class="w3-select w3-border">
+
                     <option value="">Todos</option>
                     <option>Asistencia</option>
                     <option>Participación</option>
@@ -151,7 +155,8 @@ body{
 
         <br>
 
-        <button class="w3-button boton">
+        <button class="w3-button boton"
+        onclick="buscarRegistros()">
             Buscar
         </button>
 
@@ -161,7 +166,8 @@ body{
 
     <div class="w3-card w3-white w3-padding w3-round-large">
 
-        <table class="w3-table-all">
+       <table id="tablaConsultas"
+       class="w3-table-all">
 
             <tr>
                 <th>Alumno</th>
@@ -170,19 +176,7 @@ body{
                 <th>Descripción</th>
             </tr>
 
-            <tr>
-                <td>Juan</td>
-                <td>10/05/2025</td>
-                <td>Asistencia</td>
-                <td>Presente</td>
-            </tr>
-
-            <tr>
-                <td>María</td>
-                <td>10/05/2025</td>
-                <td>Participación</td>
-                <td>Opinión</td>
-            </tr>
+           
 
         </table>
 
@@ -191,6 +185,7 @@ body{
 </div>
 </div>
 
+<!--MENU-->
 <script>
 
 function abrirMenu(){
@@ -201,7 +196,7 @@ function cerrarMenu(){
     document.getElementById("menu").style.display="none";
 }
 
-document.getElementById("fechaActual").textContent =
+/*document.getElementById("fechaActual").textContent =
 new Date().toLocaleDateString(
     "es-ES",
     {
@@ -210,9 +205,12 @@ new Date().toLocaleDateString(
         month:"long",
         day:"numeric"
     }
-);
+);*/
 
 </script>
 
+<script src="consultas.js"></script>
+
 </body>
+
 </html>
