@@ -80,7 +80,7 @@
 
             const alumnos =
                 await respuesta.json();
-
+            
             let html = '';
 
             alumnos.forEach((alumno,index)=>{
