@@ -1,129 +1,147 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Sistema de Asistencia</title>
+    <title>Sistema de Asistencia - Tomar Asistencia</title>
 
-<link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/w3.css">
 
-<style>
+    <style>
+        body {
+            background: #f5f5f5;
+        }
 
-body{
-    background:#f5f5f5;
-}
+        /* Barra superior */
+        .topbar {
+            background: #0D47A1;
+            color: white;
+        }
 
-/* Barra superior */
-.topbar{
-    background:#0D47A1;
-    color:white;
-}
+        .usuario-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
 
-/* Tarjetas */
-.tarjeta{
-    background:white;
-    border-radius:20px;
-    padding:25px;
-    min-height:260px;
-    text-align:center;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
-    transition:0.3s;
-}
+        /* Botones del diseño */
+        .btn-accion {
+            background: #FFC107;
+            color: black;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        
+        .btn-accion:hover {
+            background: #e0a800 !important;
+            color: black !important;
+        }
 
-.tarjeta:hover{
-    transform:translateY(-5px);
-}
+        .btn-guardar {
+            background: #FF9800;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px 36px;
+        }
 
-.numero{
-    font-size:50px;
-    font-weight:bold;
-    color:#0D47A1;
-}
+        .btn-guardar:hover {
+            background: #e65100 !important;
+        }
 
-.icono{
-    font-size:50px;
-}
+        /* Opciones de radio estilizadas */
+        .radio-asistencia {
+            margin-right: 8px;
+            cursor: pointer;
+        }
 
-.boton{
-    background:#FFC107;
-    color:black;
-    border-radius:10px;
-}
-
-.usuario-img{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    margin-left:5px;
-}
-
-</style>
+        .label-radio {
+            margin-right: 20px;
+            cursor: pointer;
+            font-weight: normal;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Barra superior -->
 <div class="w3-bar topbar">
-
-    <button class="w3-bar-item w3-button w3-large"
-            onclick="abrirMenu()">
-        ☰
-    </button>
-
-    <span class="w3-bar-item">
-        <b>SISTEMA DE ASISTENCIA</b>
-    </span>
-
+    <button class="w3-bar-item w3-button w3-large" onclick="abrirMenu()">☰</button>
+    <span class="w3-bar-item"><b>SISTEMA DE ASISTENCIA</b></span>
     <div class="w3-right">
-
         <div class="w3-dropdown-hover">
-
             <button class="w3-button topbar">
                  Administrador
-
-                <img
-                src="https://www.w3schools.com/w3images/avatar2.png"
-                class="usuario-img">
-
+                <img src="https://www.w3schools.com/w3images/avatar2.png" class="usuario-img">
             </button>
-
             <div class="w3-dropdown-content w3-bar-block w3-card-4">
-
                 <a href="perfil.html" class="w3-bar-item w3-button"> Mi Perfil </a>
                 <a href="iniciar.html" class="w3-bar-item w3-button"> Cerrar Sesión </a>
-
             </div>
-
         </div>
+    </div>
+</div>
 
+<div id="menu" class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none;width:250px; z-index: 5;">
+    <button class="w3-bar-item w3-button w3-large" onclick="cerrarMenu()"> × Cerrar </button>
+    <a href="principal.html" class="w3-bar-item w3-button">🏠 Inicio </a>
+    <a href="registroAlumno.html" class="w3-bar-item w3-button"> 👨‍🎓 Alumnos </a>
+    <a href="Asistencia.html" class="w3-bar-item w3-button w3-light-grey"> ✅ Asistencia </a>
+    <a href="participaciones.html" class="w3-bar-item w3-button">📋 Participación </a>
+    <a href="Consultas.html" class="w3-bar-item w3-button"> 🔍 Consultas </a>
+</div>
+
+<div class="w3-container" style="padding:30px 70px;">
+    
+    <h2 class="w3-text-blue-grey" style="font-weight: bold; letter-spacing: 1px;">
+        PANTALLA DE ASISTENCIA
+    </h2>
+    <hr style="border-top: 2px solid #0D47A1; width: 60px; margin-top: 0;">
+
+    <div class="w3-row-padding w3-white w3-card-2 w3-padding-24 w3-round-large w3-margin-bottom">
+        <div class="w3-col m8 s12">
+            <label class="w3-text-grey"><b>Fecha de Asistencia</b></label>
+            <input class="w3-input w3-border w3-round" type="date" id="fechaAsistencia" style="border-radius: 8px; padding: 8px;">
+        </div>
+        <div class="w3-col m4 s12 w3-center" style="margin-top: 18px;">
+            <button onclick="cargarTablaAlumnos()" class="w3-button w3-block btn-accion w3-padding-large">
+                Tomar Asistencia
+            </button>
+        </div>
+    </div>
+
+    <div class="w3-responsive w3-white w3-card-2 w3-round-large" style="margin-top: 20px;">
+        <h4 class="w3-padding w3-text-green w3-margin-0" style="font-weight: bold; background: #fafafa; border-bottom: 1px solid #eee;">
+            Tabla de Alumnos
+        </h4>
+        <table class="w3-table-all w3-hoverable" id="tablaAsistencia">
+            <thead>
+                <tr style="background-color: #0D47A1; color: white;">
+                    <th style="width: 50%;">Alumno</th>
+                    <th style="width: 50%;">Asistencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="2" class="w3-center w3-text-grey w3-padding-16">
+                        Selecciona una fecha y haz clic en "Tomar Asistencia" para cargar el listado.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="w3-container w3-center w3-margin-top w3-padding-24">
+        <button onclick="guardarAsistenciaMasiva()" class="w3-button btn-guardar w3-large w3-card-2">
+            Guardar asistencia
+        </button>
     </div>
 
 </div>
 
-<!-- Menú lateral -->
-<div id="menu"
-     class="w3-sidebar w3-bar-block w3-card w3-animate-left"
-     style="display:none;width:250px;">
-
-    <button class="w3-bar-item w3-button w3-large" onclick="cerrarMenu()"> × Cerrar </button>
-
-    <a href="principal.html"class="w3-bar-item w3-button">🏠 Inicio </a>
-    <a href="registroAlumno.html" class="w3-bar-item w3-button"> 👨‍🎓 Alumnos </a>
-    <a href="Asistencia.html" class="w3-bar-item w3-button"> ✅ Asistencia </a>
-    <a href="participaciones.html" class="w3-bar-item w3-button">📋 Participación </a>
-    <a href="Consultas.html" class="w3-bar-item w3-button"> 🔍 Consultas </a>
-
-</div>
-
-<!-- Contenido -->
-<div class="w3-container "style="padding:30px 70px;">
-
-   <h1>REGISTRO DE ASISTENCIA</h1>
-
-</div>
-
 <script>
-
 function abrirMenu(){
     document.getElementById("menu").style.display="block";
 }
@@ -132,6 +150,100 @@ function cerrarMenu(){
     document.getElementById("menu").style.display="none";
 }
 
+// Colocar la fecha de hoy de forma automática al iniciar
+document.getElementById("fechaAsistencia").value = new Date().toISOString().split('T')[0];
+
+// Arreglo global para retener los alumnos cargados en la vista actual
+let listaAlumnosCargados = [];
+
+// 1. CARGAR ALUMNOS DESDE EL BACKEND EN LA TABLA
+async function cargarTablaAlumnos() {
+    try {
+        const respuesta = await fetch('/api/alumnos');
+        listaAlumnosCargados = await respuesta.json();
+        
+        const tbody = document.querySelector('#tablaAsistencia tbody');
+        tbody.innerHTML = '';
+        
+        if (listaAlumnosCargados.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="2" class="w3-center w3-text-grey">No hay alumnos registrados en el sistema.</td></tr>';
+            return;
+        }
+
+        listaAlumnosCargados.forEach(alumno => {
+            tbody.innerHTML += `
+                <tr>
+                    <td style="vertical-align: middle; font-weight: bold;">${alumno.nombre}</td>
+                    <td>
+                        <input type="radio" class="w3-radio radio-asistencia" name="estado_${alumno.matricula}" value="Presente" id="pres_${alumno.matricula}" checked>
+                        <label class="label-radio" for="pres_${alumno.matricula}">Presente</label>
+                        
+                        <input type="radio" class="w3-radio radio-asistencia" name="estado_${alumno.matricula}" value="Falta" id="fal_${alumno.matricula}">
+                        <label class="label-radio" for="fal_${alumno.matricula}">Falta</label>
+                    </td>
+                </tr>
+            `;
+        });
+    } catch (error) {
+        console.error("Error al cargar alumnos:", error);
+        alert("No se pudo cargar la lista de alumnos.");
+    }
+}
+
+// 2. GUARDAR LA ASISTENCIA DE TODOS LOS ALUMNOS
+async function guardarAsistenciaMasiva() {
+    const fecha = document.getElementById("fechaAsistencia").value;
+    
+    if (listaAlumnosCargados.length === 0) {
+        alert("Primero debes cargar la tabla haciendo clic en 'Tomar Asistencia'.");
+        return;
+    }
+
+    if (!fecha) {
+        alert("Por favor selecciona una fecha válida.");
+        return;
+    }
+
+    const asistenciasAAgregar = [];
+    
+    listaAlumnosCargados.forEach(alumno => {
+        const radioSeleccionado = document.querySelector(`input[name="estado_${alumno.matricula}"]:checked`);
+        const estadoVal = radioSeleccionado ? radioSeleccionado.value : "Presente";
+        
+        asistenciasAAgregar.push({
+            matricula: alumno.matricula,
+            fecha: fecha,
+            estado: estadoVal
+        });
+    });
+
+    try {
+        let errores = 0;
+
+        for (const asistencia of asistenciasAAgregar) {
+            const respuesta = await fetch('/api/asistencia', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(asistencia)
+            });
+
+            if (!respuesta.ok) {
+                errores++;
+                console.error(`❌ Error al guardar matrícula ${asistencia.matricula}: Código ${respuesta.status}`);
+            }
+        }
+
+        if (errores === 0) {
+            alert("¡Asistencia guardada con éxito en la base de datos!");
+        } else {
+            alert(`Se procesaron los datos, pero hubo inconvenientes con ${errores} registros. Revisa la consola (F12) para ver los detalles.`);
+        }
+
+    } catch (error) {
+        console.error("Error al intentar sincronizar con el servidor:", error);
+        alert("Ocurrió un fallo de conexión al intentar guardar.");
+    }
+}
 </script>
 
 </body>

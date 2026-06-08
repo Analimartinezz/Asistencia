@@ -202,7 +202,6 @@ export function registrarAsistencia(
 /* ==========================
    PARTICIPACIONES
 ========================== */
-
 export function registrarParticipacion(
     matricula,
     fecha,
@@ -219,6 +218,36 @@ export function registrarParticipacion(
         matricula,
         fecha,
         descripcion
+    );
+}
+
+export function eliminarParticipacion(id) {
+
+    const stmt = db.prepare(`
+        DELETE FROM participaciones
+        WHERE id = ?
+    `);
+
+    stmt.run(id);
+}
+
+export function actualizarParticipacion(
+    id,
+    nuevaDescripcion,
+    nuevaFecha
+) {
+
+    const stmt = db.prepare(`
+        UPDATE participaciones
+        SET descripcion = ?,
+            fecha = ?
+        WHERE id = ?
+    `);
+
+    stmt.run(
+        nuevaDescripcion,
+        nuevaFecha,
+        id
     );
 }
 
@@ -307,7 +336,7 @@ export function obtenerHistorialFiltrado(matricula) {
 /* ==========================
    DATOS DE PRUEBA (SEED DB)
 ========================== */
-
+/* 
 export function insertarDatosPrueba() {
 
     try {
@@ -359,6 +388,6 @@ export function insertarDatosPrueba() {
     } catch (error) {
         console.error('ERROR SEED:', error.message);
     }
-}
+}*/
 
 export default db;
