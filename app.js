@@ -7,10 +7,12 @@ import db, {
   obtenerAlumnos,
   eliminarAlumno,
   actualizarAlumno,
-  registrarParticipacion,
-  eliminarParticipacion,
-  actualizarParticipacion,
-  registrarAsistencia
+  registrarParticipacion, // <- Insertar participaciones
+  eliminarParticipacion,  // <- Eliminar participaciones
+  actualizarParticipacion, // <- Actualizar participaciones
+  registrarAsistencia,     // <- Registrar asistencias masivas
+  registrarUsuario,        // <- Registrar cuentas de acceso
+  iniciarSesion            // Solución: Añadida función para validación de credenciales
 } from './escuela.js';
 
 // recrear __dirname en ES Modules
@@ -42,6 +44,15 @@ app.get('/participacion', (req, res) => {
 
 app.get('/consultas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'Consultas.html'));
+});
+
+app.get('/registrarse', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'registrarse.html'));
+});
+
+// Solución: Ruta visual añadida para servir el archivo HTML de inicio de sesión
+app.get('/iniciar', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'iniciar.html'));
 });
 
 /* ==========================
@@ -292,6 +303,44 @@ app.put('/api/participaciones/:id', (req, res) => {
             success: false, 
             mensaje: error.message 
         });
+    }
+});
+
+/* ==========================
+   API USUARIOS / AUTH
+========================== */
+
+// Registrar un nuevo usuario
+app.post('/api/usuarios/registrar', (req, res) => {
+
+    try {
+        const { nombre, correo, password, rol } = req.body;
+        const resultado = registrarUsuario(nombre, correo, password, rol);
+
+        if (resultado.success) {
+            res.json(resultado);
+        } else {
+            res.status(400).json(resultado);
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, mensaje: error.message });
+    }
+});
+
+// Solución: Endpoint POST para la validación de inicio de sesión
+app.post('/api/usuarios/login', (req, res) => {
+
+    try {
+        const { correo, password } = req.body;
+        const resultado = iniciarSesion(correo, password);
+
+        if (resultado.success) {
+            res.json(resultado);
+        } else {
+            res.status(401).json(resultado);
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, mensaje: error.message });
     }
 });
 

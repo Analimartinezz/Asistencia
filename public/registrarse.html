@@ -2,79 +2,102 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Clase - Crear Cuenta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sistema - Crear Cuenta</title>
     <link rel="stylesheet" href="css/w3.css">
     <style>
-        body { background: #f5f5f5; height: 100vh; display: flex; align-items: center; justify-content: center; margin: 0; }
-        .register-card { width: 100%; max-width: 450px; background: white; border: 1px solid #ccc; border-radius: 20px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .input-contenedor { position: relative; margin-bottom: 15px; }
-        .input-contenedor input { padding-left: 45px; padding-right: 40px; border-radius: 10px; height: 42px; }
-        .input-icono-left { position: absolute; left: 15px; top: 10px; color: #757575; font-size: 16px; }
-        .input-icono-right { position: absolute; right: 15px; top: 10px; color: #757575; cursor: pointer; }
-        .btn-register { background: #4CAF50; color: white; font-weight: bold; border-radius: 10px; height: 45px; transition: 0.3s; }
-        .btn-register:hover { background: #43a047 !important; }
+        body { 
+            background: #f5f5f5; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .card-registro { 
+            width: 100%; 
+            max-width: 450px; 
+            border-radius: 12px; 
+        }
+        .btn-azul { 
+            background: #0D47A1; 
+            color: white; 
+            font-weight: bold; 
+            border-radius: 8px; 
+        }
+        .btn-azul:hover { 
+            background: #0b3c8f !important; 
+        }
     </style>
 </head>
 <body>
 
-<div class="register-card w3-center">
-    <div class="w3-margin-bottom" style="font-size: 45px; line-height: 1;">🎓</div>
-    <h3 class="w3-text-blue-grey" style="font-weight: bold; margin: 0;">Crear cuenta</h3>
-    <p class="w3-text-grey" style="font-size: 13px; margin-top: 5px;">Completa los siguientes datos para registrarte</p>
-    <hr style="border-top: 1px solid #eee; margin: 15px 0;">
+<div class="w3-card-4 w3-white w3-padding-32 card-registro">
+    <div class="w3-container w3-center">
+        <h3 class="w3-text-blue-grey" style="font-weight: bold;">CREAR CUENTA</h3>
+        <p class="w3-text-grey">Registra un nuevo usuario en la plataforma</p>
+    </div>
 
-    <form action="/iniciar.html" method="GET">
-        <div class="w3-left-align w3-margin-bottom">
-            <label class="w3-text-grey"><b>Nombre completo</b></label>
-            <div class="input-contenedor">
-                <span class="input-icono-left">👤</span>
-                <input class="w3-input w3-border" type="text" placeholder="Ej. Juan Pérez" required>
-            </div>
-        </div>
-
-        <div class="w3-left-align w3-margin-bottom">
-            <label class="w3-text-grey"><b>Correo electrónico</b></label>
-            <div class="input-contenedor">
-                <span class="input-icono-left">✉️</span>
-                <input class="w3-input w3-border" type="email" placeholder="ejemplo@institucion.edu" required>
-            </div>
-        </div>
-
-        <div class="w3-left-align" style="margin-bottom: 5px;">
+    <form class="w3-container w3-margin-top" id="formRegistro" onsubmit="ejecutarRegistro(event)">
+        <p>
+            <label class="w3-text-grey"><b>Nombre Completo</b></label>
+            <input class="w3-input w3-border w3-round" type="text" id="nombre" required style="padding: 10px;">
+        </p>
+        <p>
+            <label class="w3-text-grey"><b>Correo Electrónico</b></label>
+            <input class="w3-input w3-border w3-round" type="email" id="correo" required style="padding: 10px;">
+        </p>
+        <p>
             <label class="w3-text-grey"><b>Contraseña</b></label>
-            <div class="input-contenedor" style="margin-bottom: 0;">
-                <span class="input-icono-left">🔒</span>
-                <input class="w3-input w3-border" id="passReg" type="password" placeholder="********" minlength="8" required>
-                <span class="input-icono-right" onclick="conmutarContrasena('passReg')">👁️</span>
-            </div>
-            <small class="w3-text-grey">Mínimo 8 caracteres</small>
-        </div>
-
-        <div class="w3-left-align w3-margin-bottom" style="margin-top: 10px;">
-            <label class="w3-text-grey"><b>Confirmar contraseña</b></label>
-            <div class="input-contenedor">
-                <span class="input-icono-left">🔒</span>
-                <input class="w3-input w3-border" id="passConfirm" type="password" placeholder="********" minlength="8" required>
-                <span class="input-icono-right" onclick="conmutarContrasena('passConfirm')">👁️</span>
-            </div>
-        </div>
-
-        <button type="submit" class="w3-button w3-block btn-register w3-margin-top">
-            Crear cuenta
-        </button>
+            <input class="w3-input w3-border w3-round" type="password" id="password" required style="padding: 10px;">
+        </p>
+        <p class="w3-margin-top">
+            <button type="submit" class="w3-button w3-block btn-azul w3-padding-large">Registrar Usuario</button>
+        </p>
     </form>
 
-    <p class="w3-margin-top w3-text-grey" style="font-size: 14px;">
-        ¿Ya tienes una cuenta? <a href="iniciar.html" class="w3-text-blue" style="text-decoration: none; font-weight: bold;">Iniciar sesión</a>
-    </p>
+    <div class="w3-container w3-center w3-margin-top">
+        <p class="w3-small w3-text-grey">
+            ¿Ya tienes cuenta? <a href="/iniciar" class="w3-text-blue" style="font-weight: bold; text-decoration: none;">Inicia sesión aquí</a>
+        </p>
+        <p class="w3-small">
+            <a href="/" class="w3-text-grey" style="text-decoration: none;">← Volver al Inicio</a>
+        </p>
+    </div>
 </div>
 
 <script>
-function conmutarContrasena(idInput) {
-    const input = document.getElementById(idInput);
-    input.type = input.type === "password" ? "text" : "password";
+async function ejecutarRegistro(e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('nombre').value;
+    const correo = document.getElementById('correo').value;
+    const password = document.getElementById('password').value;
+    
+    // Asignamos el rol fijo por defecto
+    const rol = 'profesor'; 
+
+    try {
+        const respuesta = await fetch('/api/usuarios/registrar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, correo, password, rol })
+        });
+
+        const datos = await respuesta.json();
+
+        if (respuesta.ok && datos.success) {
+            alert("¡Usuario registrado con éxito en la base de datos!");
+            document.getElementById('formRegistro').reset();
+            window.location.href = '/iniciar';
+        } else {
+            alert("Error al registrar: " + datos.mensaje);
+        }
+    } catch (error) {
+        alert("Ocurrió un problema al conectar con el servidor.");
+    }
 }
 </script>
+
 </body>
 </html>
