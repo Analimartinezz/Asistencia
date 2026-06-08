@@ -140,8 +140,9 @@ body{
 
                 <h3>Alumnos</h3>
 
-                <div class="numero">
-                    124
+                <!-- 👇 AQUÍ VA EL CONTADOR -->
+                <div class="numero" id="totalAlumnosDashboard">
+                    0
                 </div>
 
                 <p>
@@ -167,8 +168,8 @@ body{
 
                 <h3>Asistencia</h3>
 
-                <div class="numero">
-                    98%
+                <div class="numero" id="totalAsistenciasDashboard">
+                    0
                 </div>
 
                 <p>
@@ -194,8 +195,8 @@ body{
 
                 <h3>Participaciones</h3>
 
-                <div class="numero">
-                    56
+                <div class="numero" id="totalParticipacionesDashboard">
+                0
                 </div>
 
                 <p>
@@ -215,28 +216,7 @@ body{
 
 </div>
 
-<script>
-
-function abrirMenu(){
-    document.getElementById("menu").style.display="block";
-}
-
-function cerrarMenu(){
-    document.getElementById("menu").style.display="none";
-}
-
-document.getElementById("fechaActual").textContent =
-new Date().toLocaleDateString(
-    "es-ES",
-    {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    }
-);
-
-</script>
+<script src="js/principal.js"> </script>
 
 </body>
 </html>

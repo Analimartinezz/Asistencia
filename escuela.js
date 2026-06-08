@@ -43,14 +43,7 @@ CREATE TABLE IF NOT EXISTS participaciones (
     FOREIGN KEY (matricula) REFERENCES alumnos(matricula)
 );
 
-CREATE TABLE IF NOT EXISTS consultas (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    matricula TEXT NOT NULL,
-    fecha TEXT NOT NULL,
-    tipo TEXT NOT NULL,
-    descripcion TEXT NOT NULL,
-    FOREIGN KEY (matricula) REFERENCES alumnos(matricula)
-);
+
 `);
 
 console.log('Base de datos creada correctamente.');
@@ -209,7 +202,6 @@ export function registrarAsistencia(
 /* ==========================
    PARTICIPACIONES
 ========================== */
-
 export function registrarParticipacion(
     matricula,
     fecha,
@@ -229,68 +221,118 @@ export function registrarParticipacion(
     );
 }
 
+export function eliminarParticipacion(id) {
+
+    const stmt = db.prepare(`
+        DELETE FROM participaciones
+        WHERE id = ?
+    `);
+
+    stmt.run(id);
+}
+
+export function actualizarParticipacion(
+    id,
+    nuevaDescripcion,
+    nuevaFecha
+) {
+
+    const stmt = db.prepare(`
+        UPDATE participaciones
+        SET descripcion = ?,
+            fecha = ?
+        WHERE id = ?
+    `);
+
+    stmt.run(
+        nuevaDescripcion,
+        nuevaFecha,
+        id
+    );
+}
+
+
 /* ==========================
    CONSULTAS
 ========================== */
 
-export function registrarConsulta(
-    matricula,
-    fecha,
-    tipo,
-    descripcion
-) {
+export function obtenerConsulta(matricula, fecha, tipo) {
 
-    const stmt = db.prepare(`
-        INSERT INTO consultas
-        (matricula, fecha, tipo, descripcion)
-        VALUES (?, ?, ?, ?)
-    `);
+    let query = `
+        SELECT al.matricula, al.nombre, a.fecha, 'Asistencia' AS tipo, a.estado AS detalle
+        FROM alumnos al
+        JOIN asistencias a ON al.matricula = a.matricula
 
-    stmt.run(
-        matricula,
-        fecha,
-        tipo,
-        descripcion
-    );
+        UNION ALL
+
+        SELECT al.matricula, al.nombre, p.fecha, 'Participación' AS tipo, p.descripcion AS detalle
+        FROM alumnos al
+        JOIN participaciones p ON al.matricula = p.matricula
+    `;
+
+    const stmt = db.prepare(query);
+    return stmt.all();
 }
 
-/* ==========================
-   PRUEBAS (opcional)
-========================== */
+export function obtenerHistorialGeneral() {
 
-// Descomenta para probar
+    const stmt = db.prepare(`
+        SELECT 
+            al.matricula,
+            al.nombre,
+            a.fecha,
+            a.estado AS detalle,
+            'Asistencia' AS tipo
+        FROM alumnos al
+        JOIN asistencias a ON al.matricula = a.matricula
 
-/*
-registrarUsuario(
-    'Administrador',
-    'admin@escuela.com',
-    '1234',
-    'profesor'
-);
+        UNION ALL
 
-registrarAlumno(
-    '22110001',
-    'Juan Pérez'
-);
+        SELECT 
+            al.matricula,
+            al.nombre,
+            p.fecha,
+            p.descripcion AS detalle,
+            'Participación' AS tipo
+        FROM alumnos al
+        JOIN participaciones p ON al.matricula = p.matricula
 
-registrarAsistencia(
-    '22110001',
-    '2026-06-07',
-    'Presente'
-);
+        ORDER BY fecha DESC
+    `);
 
-registrarParticipacion(
-    '22110001',
-    '2026-06-07',
-    'Respondió una pregunta'
-);
+    return stmt.all();
+}
 
-registrarConsulta(
-    '22110001',
-    '2026-06-07',
-    'Asesoría',
-    'Solicitó ayuda con el proyecto'
-);
-*/
+export function obtenerHistorialFiltrado(matricula) {
+
+    const stmt = db.prepare(`
+        SELECT 
+            al.matricula,
+            al.nombre,
+            a.fecha,
+            a.estado AS detalle,
+            'Asistencia' AS tipo
+        FROM alumnos al
+        JOIN asistencias a ON al.matricula = a.matricula
+        WHERE al.matricula = ?
+
+        UNION ALL
+
+        SELECT 
+            al.matricula,
+            al.nombre,
+            p.fecha,
+            p.descripcion AS detalle,
+            'Participación' AS tipo
+        FROM alumnos al
+        JOIN participaciones p ON al.matricula = p.matricula
+        WHERE al.matricula = ?
+
+        ORDER BY fecha DESC
+    `);
+
+    return stmt.all(matricula, matricula);
+}
+
 
 export default db;

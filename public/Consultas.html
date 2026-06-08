@@ -127,63 +127,54 @@ body{
 
             <div class="w3-third">
                 <label><b>Buscar alumno</b></label>
-                <input class="w3-input w3-border"
-                       type="text"
-                       placeholder="Nombre del alumno">
+                <input id="filtroAlumno"
+                    class="w3-input w3-border"
+                    type="text"
+                    placeholder="Nombre o matrícula">
             </div>
 
             <div class="w3-third">
                 <label><b>Fecha</b></label>
-                <input class="w3-input w3-border"
-                       type="date">
+                <input id="filtroFecha"
+                    class="w3-input w3-border"
+                    type="date">
             </div>
 
             <div class="w3-third">
                 <label><b>Tipo</b></label>
-                <select class="w3-select w3-border">
+                <select id="filtroTipo"
+                        class="w3-select w3-border">
                     <option value="">Todos</option>
-                    <option>Asistencia</option>
-                    <option>Participación</option>
+                    <option value="Asistencia">Asistencia</option>
+                    <option value="Participación">Participación</option>
                 </select>
             </div>
 
         </div>
 
-        <br>
+        
 
-        <button class="w3-button boton">
+        <button class="w3-button boton" onclick="buscarConsultas()">
             Buscar
         </button>
 
     </div>
 
-    <br>
-
+   
     <div class="w3-card w3-white w3-padding w3-round-large">
 
         <table class="w3-table-all">
+            <thead>
+                <tr>
+                    <th>Matricula</th>
+                    <th>Alumno</th>
+                    <th>Fecha</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
 
-            <tr>
-                <th>Alumno</th>
-                <th>Fecha</th>
-                <th>Tipo</th>
-                <th>Descripción</th>
-            </tr>
-
-            <tr>
-                <td>Juan</td>
-                <td>10/05/2025</td>
-                <td>Asistencia</td>
-                <td>Presente</td>
-            </tr>
-
-            <tr>
-                <td>María</td>
-                <td>10/05/2025</td>
-                <td>Participación</td>
-                <td>Opinión</td>
-            </tr>
-
+            <tbody id="tablaConsultas"></tbody>
         </table>
 
     </div>
@@ -193,7 +184,7 @@ body{
 
 <script>
 
-function abrirMenu(){
+    function abrirMenu(){
     document.getElementById("menu").style.display="block";
 }
 
@@ -201,16 +192,50 @@ function cerrarMenu(){
     document.getElementById("menu").style.display="none";
 }
 
-document.getElementById("fechaActual").textContent =
-new Date().toLocaleDateString(
-    "es-ES",
-    {
-        weekday:"long",
-        year:"numeric",
-        month:"long",
-        day:"numeric"
-    }
-);
+async function cargarConsultas() {
+
+    const res = await fetch('/api/consultas');
+    const datos = await res.json();
+
+    mostrarTabla(datos);
+}
+
+function mostrarTabla(datos) {
+
+    const tabla = document.getElementById('tablaConsultas');
+    tabla.innerHTML = '';
+
+    datos.forEach(item => {
+
+        tabla.innerHTML += `
+            <tr>
+                <td>${item.matricula}</td>
+                <td>${item.nombre}</td>
+                <td>${item.fecha}</td>
+                <td>${item.tipo}</td>
+                <td>${item.detalle}</td>
+            </tr>
+        `;
+    });
+}
+
+async function buscarConsultas() {
+
+    const alumno = document.getElementById('filtroAlumno').value;
+    const fecha = document.getElementById('filtroFecha').value;
+    const tipo = document.getElementById('filtroTipo').value;
+
+    const params = new URLSearchParams();
+    
+    if (alumno) params.append('matricula', alumno);
+    if (fecha) params.append('fecha', fecha);
+    if (tipo) params.append('tipo', tipo);
+
+    const res = await fetch(`/api/consultas?${params.toString()}`);
+    const datos = await res.json();
+
+    mostrarTabla(datos);
+}
 
 </script>
 
