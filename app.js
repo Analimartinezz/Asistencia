@@ -9,7 +9,8 @@ import db, {
   actualizarAlumno,
   registrarParticipacion,
   eliminarParticipacion,
-  actualizarParticipacion
+  actualizarParticipacion,
+  registrarAsistencia
 } from './escuela.js';
 
 // recrear __dirname en ES Modules
@@ -146,6 +147,43 @@ app.put('/api/alumnos/:matricula', (req,res)=>{
         res.status(500).json({
             success:false,
             mensaje:error.message
+        });
+
+    }
+
+});
+
+/* ==========================
+   API ASISTENCIAS
+========================== */
+
+// Registrar asistencia de alumno
+app.post('/api/asistencia', (req, res) => {
+
+    try {
+
+        const {
+            matricula,
+            fecha,
+            estado
+        } = req.body;
+
+        registrarAsistencia(
+            matricula,
+            fecha,
+            estado
+        );
+
+        res.json({
+            success: true,
+            mensaje: 'Asistencia registrada correctamente'
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
         });
 
     }
