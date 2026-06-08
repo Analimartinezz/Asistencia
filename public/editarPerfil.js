@@ -1,3 +1,6 @@
+const idUsuario = sessionStorage.getItem("idUsuario");
+
+console.log("JS cargado");
 function guardarCambios() {
 
     const nombre =
@@ -12,41 +15,53 @@ function guardarCambios() {
     const confirmar =
         document.getElementById("confirmarPassword").value;
 
+    // ❗ VALIDACIÓN 1: no vacíos
+    if (!nombre || !correo || !password || !confirmar) {
+        alert("Todos los campos son obligatorios");
+        return;
+    }
+
+    // ❗ VALIDACIÓN 2: contraseñas iguales
     if (password !== confirmar) {
         alert("Las contraseñas no coinciden");
         return;
     }
 
+    // ❗ VALIDACIÓN 3: longitud mínima
+    if (password.length < 4) {
+        alert("La contraseña debe tener al menos 4 caracteres");
+        return;
+    }
+
     fetch('/actualizarPerfil', {
 
-        method: 'POST',
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
 
-        headers: {
-            'Content-Type': 'application/json'
-        },
-
-        body: JSON.stringify({
-            nombre,
-            correo,
-            password
-        })
-
+    body: JSON.stringify({
+        nombre,
+        correo,
+        password
     })
-    .then(res => res.json())
-    .then(data => {
 
+})
+.then(async res => {
+
+    const data = await res.json();
+
+    if (!res.ok) {
         alert(data.mensaje);
+        return;
+    }
 
-        window.location.href = "perfil.html";
+    alert(data.mensaje);
+    window.location.href = "perfil.html";
 
-    })
-    .catch(error => {
-
-    console.log("ERROR COMPLETO:");
+})
+.catch(error => {
     console.log(error);
-
-    alert(error);
-
+    alert("Error al actualizar perfil");
 });
-
 }

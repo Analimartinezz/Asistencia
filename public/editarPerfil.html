@@ -161,7 +161,10 @@ function cerrarMenu(){
 </script>
 <script>
 
-fetch('/perfilDB')
+const id = sessionStorage.getItem("idUsuario");
+
+fetch(`/perfilDB?id=${id}`)
+
 .then(res => res.json())
 .then(usuario => {
 

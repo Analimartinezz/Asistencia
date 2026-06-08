@@ -1,6 +1,9 @@
 function buscarRegistros() {
 
-    const alumno =
+    const matricula =
+        document.getElementById("buscarMatricula").value;
+
+    const matricula =
         document.getElementById("buscarAlumno").value;
 
     const fecha =
@@ -18,7 +21,7 @@ function buscarRegistros() {
         },
 
         body: JSON.stringify({
-            alumno,
+            matricula,
             fecha,
             tipo
         })
@@ -35,8 +38,8 @@ function buscarRegistros() {
         console.error(error);
 
     });
-
 }
+
 function mostrarResultados(datos) {
 
     const tabla =
@@ -44,6 +47,7 @@ function mostrarResultados(datos) {
 
     tabla.innerHTML = `
         <tr>
+            <th>Matrícula</th>
             <th>Alumno</th>
             <th>Fecha</th>
             <th>Tipo</th>
@@ -55,13 +59,12 @@ function mostrarResultados(datos) {
 
         tabla.innerHTML += `
             <tr>
+                <td>${registro.matricula}</td>
                 <td>${registro.alumno}</td>
                 <td>${registro.fecha}</td>
                 <td>${registro.tipo}</td>
                 <td>${registro.descripcion}</td>
             </tr>
         `;
-
     });
-
 }

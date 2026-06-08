@@ -1,12 +1,25 @@
+import sqlite3 from 'sqlite3';
+sqlite3.verbose();
+
+const db = new sqlite3.Database('./db/escuela.db');
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import {
+  registrarAlumno,
+  obtenerAlumnos,
+  eliminarAlumno,
+  actualizarAlumno
+} from './escuela.js';
 
 // recrear __dirname en ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(express.json());
+
 
 // servir estáticos desde "public"
 app.use(express.static(path.join(__dirname, 'public')));
@@ -31,7 +44,172 @@ app.get('/consultas', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'Consultas.html'));
 });
 
+/* ==========================
+   API ALUMNOS
+========================== */
+
+// Obtener todos los alumnos
+app.get('/api/alumnos', (req, res) => {
+
+    try {
+
+        const alumnos = obtenerAlumnos();
+
+        res.json(alumnos);
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
+        });
+
+    }
+
+});
+
+// Registrar alumno
+
+app.post('/api/alumnos', (req, res) => {
+
+    try {
+
+        const {
+            matricula,
+            nombre
+        } = req.body;
+
+        registrarAlumno(
+            matricula,
+            nombre
+        );
+
+        res.json({
+            success: true,
+            mensaje: 'Alumno registrado correctamente'
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
+        });
+
+    }
+
+});
+
+// Eliminar alumno
+app.delete('/api/alumnos/:matricula', (req, res) => {
+
+    try {
+
+        eliminarAlumno(
+            req.params.matricula
+        );
+
+        res.json({
+            success: true,
+            mensaje: 'Alumno eliminado'
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
+        });
+
+    }
+
+});
+
+// Editar alumno
+
+app.put('/api/alumnos/:matricula', (req,res)=>{
+
+    try{
+
+        actualizarAlumno(
+            req.params.matricula,
+            req.body.matricula,
+            req.body.nombre
+        );
+
+        res.json({
+            success:true,
+            mensaje:'Alumno actualizado'
+        });
+
+    }catch(error){
+
+        res.status(500).json({
+            success:false,
+            mensaje:error.message
+        });
+
+    }
+
+});
+
+// PERFIL
+app.get('/perfilDB', (req, res) => {
+
+    db.get(
+        `SELECT * FROM usuarios ORDER BY id DESC LIMIT 1`,
+        [],
+        (err, row) => {
+
+            if (err) {
+                console.log("ERROR PERFIL:", err);
+                return res.status(500).json({ mensaje: "Error al obtener perfil" });
+            }
+
+            res.json(row);
+        }
+    );
+
+});
+
+// ACTUALIZAR PERFIL (CORREGIDO)
+app.post('/actualizarPerfil', (req, res) => {
+
+    const { nombre, correo, password } = req.body;
+
+    if (!nombre || !correo || !password) {
+        return res.status(400).json({
+            mensaje: "Faltan datos"
+        });
+    }
+
+    db.run(
+        `UPDATE usuarios 
+         SET nombre = ?, correo = ?, password = ?
+         WHERE id = (SELECT id FROM usuarios ORDER BY id DESC LIMIT 1)`,
+        [nombre, correo, password],
+
+        function (err) {
+
+            if (err) {
+                console.log("ERROR SQL:", err);
+                return res.status(500).json({
+                    mensaje: "Error al actualizar perfil",
+                    error: err.message
+                });
+            }
+
+            console.log("FILAS MODIFICADAS:", this.changes);
+
+            res.json({
+                mensaje: "Perfil actualizado correctamente"
+            });
+
+        }
+    );
+});
 const port = 3000;
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://127.0.0.1:${port}`);
 });
+
