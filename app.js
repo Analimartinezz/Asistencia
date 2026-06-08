@@ -6,7 +6,11 @@ import {
   registrarAlumno,
   obtenerAlumnos,
   eliminarAlumno,
-  actualizarAlumno
+  actualizarAlumno,
+  insertarDatosPrueba,
+  obtenerHistorialGeneral,
+  obtenerHistorialFiltrado
+
 } from './escuela.js';
 
 // recrear __dirname en ES Modules
@@ -147,6 +151,68 @@ app.put('/api/alumnos/:matricula', (req,res)=>{
 
     }
 
+});
+
+app.get('/api/test-datos', (req, res) => {
+
+    try {
+
+        insertarDatosPrueba();
+
+        res.json({
+            success: true,
+            mensaje: 'Datos insertados correctamente'
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
+        });
+
+    }
+});
+
+/* ==========================
+   API ASISTENCIA
+========================== */
+
+/* ==========================
+   API PARTICIPACION
+========================== */
+
+/* ==========================
+   API CONSULTAS
+========================== */
+app.get('/api/consultas', (req, res) => {
+
+    const { matricula, fecha, tipo } = req.query;
+
+    let datos = obtenerHistorialGeneral();
+
+    if (matricula) {
+        const value = matricula.toLowerCase();
+
+        datos = datos.filter(d =>
+            (d.matricula || '').toLowerCase().includes(value) ||
+            (d.nombre || '').toLowerCase().includes(value)
+        );
+    }
+
+    if (fecha) {
+        datos = datos.filter(d =>
+            d.fecha === fecha
+        );
+    }
+
+    if (tipo) {
+        datos = datos.filter(d =>
+            d.tipo === tipo
+        );
+    }
+
+    res.json(datos);
 });
 
 const port = 3000;

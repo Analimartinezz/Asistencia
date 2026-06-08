@@ -43,14 +43,7 @@ CREATE TABLE IF NOT EXISTS participaciones (
     FOREIGN KEY (matricula) REFERENCES alumnos(matricula)
 );
 
-CREATE TABLE IF NOT EXISTS consultas (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    matricula TEXT NOT NULL,
-    fecha TEXT NOT NULL,
-    tipo TEXT NOT NULL,
-    descripcion TEXT NOT NULL,
-    FOREIGN KEY (matricula) REFERENCES alumnos(matricula)
-);
+
 `);
 
 console.log('Base de datos creada correctamente.');
@@ -233,64 +226,139 @@ export function registrarParticipacion(
    CONSULTAS
 ========================== */
 
-export function registrarConsulta(
-    matricula,
-    fecha,
-    tipo,
-    descripcion
-) {
+export function obtenerConsulta(matricula, fecha, tipo) {
+
+    let query = `
+        SELECT al.matricula, al.nombre, a.fecha, 'Asistencia' AS tipo, a.estado AS detalle
+        FROM alumnos al
+        JOIN asistencias a ON al.matricula = a.matricula
+
+        UNION ALL
+
+        SELECT al.matricula, al.nombre, p.fecha, 'Participación' AS tipo, p.descripcion AS detalle
+        FROM alumnos al
+        JOIN participaciones p ON al.matricula = p.matricula
+    `;
+
+    const stmt = db.prepare(query);
+    return stmt.all();
+}
+
+export function obtenerHistorialGeneral() {
 
     const stmt = db.prepare(`
-        INSERT INTO consultas
-        (matricula, fecha, tipo, descripcion)
-        VALUES (?, ?, ?, ?)
+        SELECT 
+            al.matricula,
+            al.nombre,
+            a.fecha,
+            a.estado AS detalle,
+            'Asistencia' AS tipo
+        FROM alumnos al
+        JOIN asistencias a ON al.matricula = a.matricula
+
+        UNION ALL
+
+        SELECT 
+            al.matricula,
+            al.nombre,
+            p.fecha,
+            p.descripcion AS detalle,
+            'Participación' AS tipo
+        FROM alumnos al
+        JOIN participaciones p ON al.matricula = p.matricula
+
+        ORDER BY fecha DESC
     `);
 
-    stmt.run(
-        matricula,
-        fecha,
-        tipo,
-        descripcion
-    );
+    return stmt.all();
+}
+
+export function obtenerHistorialFiltrado(matricula) {
+
+    const stmt = db.prepare(`
+        SELECT 
+            al.matricula,
+            al.nombre,
+            a.fecha,
+            a.estado AS detalle,
+            'Asistencia' AS tipo
+        FROM alumnos al
+        JOIN asistencias a ON al.matricula = a.matricula
+        WHERE al.matricula = ?
+
+        UNION ALL
+
+        SELECT 
+            al.matricula,
+            al.nombre,
+            p.fecha,
+            p.descripcion AS detalle,
+            'Participación' AS tipo
+        FROM alumnos al
+        JOIN participaciones p ON al.matricula = p.matricula
+        WHERE al.matricula = ?
+
+        ORDER BY fecha DESC
+    `);
+
+    return stmt.all(matricula, matricula);
 }
 
 /* ==========================
-   PRUEBAS (opcional)
+   DATOS DE PRUEBA (SEED DB)
 ========================== */
 
-// Descomenta para probar
+export function insertarDatosPrueba() {
 
-/*
-registrarUsuario(
-    'Administrador',
-    'admin@escuela.com',
-    '1234',
-    'profesor'
-);
+    try {
 
-registrarAlumno(
-    '22110001',
-    'Juan Pérez'
-);
+        // =========================
+        // ALUMNOS (PRIMERO SIEMPRE)
+        // =========================
+        db.prepare(`
+            INSERT OR IGNORE INTO alumnos (matricula, nombre)
+            VALUES (?, ?)
+        `).run('22110001', 'Juan Pérez');
 
-registrarAsistencia(
-    '22110001',
-    '2026-06-07',
-    'Presente'
-);
+        db.prepare(`
+            INSERT OR IGNORE INTO alumnos (matricula, nombre)
+            VALUES (?, ?)
+        `).run('22110002', 'María López');
 
-registrarParticipacion(
-    '22110001',
-    '2026-06-07',
-    'Respondió una pregunta'
-);
 
-registrarConsulta(
-    '22110001',
-    '2026-06-07',
-    'Asesoría',
-    'Solicitó ayuda con el proyecto'
-);
-*/
+        // =========================
+        // ASISTENCIAS
+        // =========================
+        db.prepare(`
+            INSERT INTO asistencias (matricula, fecha, estado)
+            VALUES (?, ?, ?)
+        `).run('22110001', '2026-06-07', 'Presente');
+
+        db.prepare(`
+            INSERT INTO asistencias (matricula, fecha, estado)
+            VALUES (?, ?, ?)
+        `).run('22110002', '2026-06-07', 'Falta');
+
+
+        // =========================
+        // PARTICIPACIONES
+        // =========================
+        db.prepare(`
+            INSERT INTO participaciones (matricula, fecha, descripcion)
+            VALUES (?, ?, ?)
+        `).run('22110001', '2026-06-07', 'Respondió pregunta');
+
+        db.prepare(`
+            INSERT INTO participaciones (matricula, fecha, descripcion)
+            VALUES (?, ?, ?)
+        `).run('22110002', '2026-06-07', 'Participó en equipo');
+
+
+        console.log('✔ DATOS INSERTADOS EN BD');
+
+    } catch (error) {
+        console.error('ERROR SEED:', error.message);
+    }
+}
 
 export default db;
