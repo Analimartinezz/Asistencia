@@ -222,8 +222,6 @@ export function registrarParticipacion(
 }
 
 export function eliminarParticipacion(id) {
-<<<<<<< HEAD
-=======
 
     const stmt = db.prepare(`
         DELETE FROM participaciones
@@ -253,38 +251,6 @@ export function actualizarParticipacion(
     );
 }
 
-/* ==========================
-   CONSULTAS
-========================== */
->>>>>>> julian
-
-    const stmt = db.prepare(`
-        DELETE FROM participaciones
-        WHERE id = ?
-    `);
-
-    stmt.run(id);
-}
-
-export function actualizarParticipacion(
-    id,
-    nuevaDescripcion,
-    nuevaFecha
-) {
-
-    const stmt = db.prepare(`
-        UPDATE participaciones
-        SET descripcion = ?,
-            fecha = ?
-        WHERE id = ?
-    `);
-
-    stmt.run(
-        nuevaDescripcion,
-        nuevaFecha,
-        id
-    );
-}
 
 /* ==========================
    CONSULTAS
@@ -368,61 +334,5 @@ export function obtenerHistorialFiltrado(matricula) {
     return stmt.all(matricula, matricula);
 }
 
-/* ==========================
-   DATOS DE PRUEBA (SEED DB)
-========================== */
-/* 
-export function insertarDatosPrueba() {
-
-    try {
-
-        // =========================
-        // ALUMNOS (PRIMERO SIEMPRE)
-        // =========================
-        db.prepare(`
-            INSERT OR IGNORE INTO alumnos (matricula, nombre)
-            VALUES (?, ?)
-        `).run('22110001', 'Juan Pérez');
-
-        db.prepare(`
-            INSERT OR IGNORE INTO alumnos (matricula, nombre)
-            VALUES (?, ?)
-        `).run('22110002', 'María López');
-
-
-        // =========================
-        // ASISTENCIAS
-        // =========================
-        db.prepare(`
-            INSERT INTO asistencias (matricula, fecha, estado)
-            VALUES (?, ?, ?)
-        `).run('22110001', '2026-06-07', 'Presente');
-
-        db.prepare(`
-            INSERT INTO asistencias (matricula, fecha, estado)
-            VALUES (?, ?, ?)
-        `).run('22110002', '2026-06-07', 'Falta');
-
-
-        // =========================
-        // PARTICIPACIONES
-        // =========================
-        db.prepare(`
-            INSERT INTO participaciones (matricula, fecha, descripcion)
-            VALUES (?, ?, ?)
-        `).run('22110001', '2026-06-07', 'Respondió pregunta');
-
-        db.prepare(`
-            INSERT INTO participaciones (matricula, fecha, descripcion)
-            VALUES (?, ?, ?)
-        `).run('22110002', '2026-06-07', 'Participó en equipo');
-
-
-        console.log('✔ DATOS INSERTADOS EN BD');
-
-    } catch (error) {
-        console.error('ERROR SEED:', error.message);
-    }
-}*/
 
 export default db;

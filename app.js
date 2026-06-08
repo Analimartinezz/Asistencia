@@ -10,14 +10,10 @@ import db, {
   registrarParticipacion,
   eliminarParticipacion,
   actualizarParticipacion,
-<<<<<<< HEAD
   registrarAsistencia,
   obtenerHistorialGeneral,  //consultas
   obtenerHistorialFiltrado
 
-=======
-  registrarAsistencia
->>>>>>> julian
 } from './escuela.js';
 
 // recrear __dirname en ES Modules
@@ -134,6 +130,8 @@ app.delete('/api/alumnos/:matricula', (req, res) => {
 
 // Editar alumno
 
+// Editar alumno
+
 app.put('/api/alumnos/:matricula', (req,res)=>{
 
     try{
@@ -160,35 +158,11 @@ app.put('/api/alumnos/:matricula', (req,res)=>{
 
 });
 
-<<<<<<< HEAD
-/*  DATOS PRUEBA
-app.get('/api/test-datos', (req, res) => {
 
-    try {
 
-        insertarDatosPrueba();
-
-        res.json({
-            success: true,
-            mensaje: 'Datos insertados correctamente'
-        });
-
-    } catch (error) {
-
-        res.status(500).json({
-            success: false,
-            mensaje: error.message
-        });
-
-    }
-});*/
 
 /* ==========================
    API ASISTENCIA
-=======
-/* ==========================
-   API ASISTENCIAS
->>>>>>> julian
 ========================== */
 
 // Registrar asistencia de alumno
@@ -224,14 +198,9 @@ app.post('/api/asistencia', (req, res) => {
 
 });
 
-<<<<<<< HEAD
 
 /* ==========================
    API PARTICIPACION
-=======
-/* ==========================
-   API PARTICIPACIONES
->>>>>>> julian
 ========================== */
 
 // Obtener el historial de participaciones con nombres
@@ -335,7 +304,6 @@ app.put('/api/participaciones/:id', (req, res) => {
     }
 });
 
-<<<<<<< HEAD
 /* ==========================
    API CONSULTAS
 ========================== */
@@ -374,9 +342,3 @@ app.listen(port, () => {
   console.log(`Servidor corriendo en http://127.0.0.1:${port}`);
 });
 
-=======
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://127.0.0.1:${port}`);
-});
->>>>>>> julian
