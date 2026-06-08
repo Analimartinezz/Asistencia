@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import {
+import db, {
   registrarAlumno,
   obtenerAlumnos,
   eliminarAlumno,
@@ -10,10 +10,14 @@ import {
   registrarParticipacion,
   eliminarParticipacion,
   actualizarParticipacion,
+<<<<<<< HEAD
   registrarAsistencia,
   obtenerHistorialGeneral,  //consultas
   obtenerHistorialFiltrado
 
+=======
+  registrarAsistencia
+>>>>>>> julian
 } from './escuela.js';
 
 // recrear __dirname en ES Modules
@@ -156,6 +160,7 @@ app.put('/api/alumnos/:matricula', (req,res)=>{
 
 });
 
+<<<<<<< HEAD
 /*  DATOS PRUEBA
 app.get('/api/test-datos', (req, res) => {
 
@@ -180,6 +185,10 @@ app.get('/api/test-datos', (req, res) => {
 
 /* ==========================
    API ASISTENCIA
+=======
+/* ==========================
+   API ASISTENCIAS
+>>>>>>> julian
 ========================== */
 
 // Registrar asistencia de alumno
@@ -215,9 +224,14 @@ app.post('/api/asistencia', (req, res) => {
 
 });
 
+<<<<<<< HEAD
 
 /* ==========================
    API PARTICIPACION
+=======
+/* ==========================
+   API PARTICIPACIONES
+>>>>>>> julian
 ========================== */
 
 // Obtener el historial de participaciones con nombres
@@ -321,6 +335,7 @@ app.put('/api/participaciones/:id', (req, res) => {
     }
 });
 
+<<<<<<< HEAD
 /* ==========================
    API CONSULTAS
 ========================== */
@@ -359,3 +374,9 @@ app.listen(port, () => {
   console.log(`Servidor corriendo en http://127.0.0.1:${port}`);
 });
 
+=======
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Servidor corriendo en http://127.0.0.1:${port}`);
+});
+>>>>>>> julian

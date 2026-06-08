@@ -222,6 +222,41 @@ export function registrarParticipacion(
 }
 
 export function eliminarParticipacion(id) {
+<<<<<<< HEAD
+=======
+
+    const stmt = db.prepare(`
+        DELETE FROM participaciones
+        WHERE id = ?
+    `);
+
+    stmt.run(id);
+}
+
+export function actualizarParticipacion(
+    id,
+    nuevaDescripcion,
+    nuevaFecha
+) {
+
+    const stmt = db.prepare(`
+        UPDATE participaciones
+        SET descripcion = ?,
+            fecha = ?
+        WHERE id = ?
+    `);
+
+    stmt.run(
+        nuevaDescripcion,
+        nuevaFecha,
+        id
+    );
+}
+
+/* ==========================
+   CONSULTAS
+========================== */
+>>>>>>> julian
 
     const stmt = db.prepare(`
         DELETE FROM participaciones
