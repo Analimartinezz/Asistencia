@@ -63,9 +63,17 @@
             cursor: pointer;
             font-weight: normal;
         }
+
+        /* Badges estilizados para el historial */
+        .badge-asistencia {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: white;
+        }
     </style>
 </head>
-<body>
+<body onload="inicializarPantalla()">
 
 <div class="w3-bar topbar">
     <button class="w3-bar-item w3-button w3-large" onclick="abrirMenu()">☰</button>
@@ -139,6 +147,29 @@
         </button>
     </div>
 
+    <div class="w3-responsive w3-white w3-card-2 w3-round-large" style="margin-top: 30px;">
+        <h4 class="w3-padding w3-text-blue-grey w3-margin-0" style="font-weight: bold; background: #fafafa; border-bottom: 1px solid #eee;">
+            Historial de Asistencias Recientes
+        </h4>
+        <table class="w3-table-all w3-hoverable" id="tablaHistorial">
+            <thead>
+                <tr style="background-color: #546E7A; color: white;">
+                    <th style="width: 25%;">Fecha</th>
+                    <th style="width: 25%;">Matrícula</th>
+                    <th style="width: 35%;">Nombre Completo</th>
+                    <th style="width: 15%;">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" class="w3-center w3-text-grey w3-padding-16">
+                        Cargando historial de registros...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <script>
@@ -150,22 +181,30 @@ function cerrarMenu(){
     document.getElementById("menu").style.display="none";
 }
 
-// Colocar la fecha de hoy de forma automática al iniciar
-document.getElementById("fechaAsistencia").value = new Date().toISOString().split('T')[0];
+// 1. Inicializar la pantalla con manejo asíncrono ordenado
+async function inicializarPantalla() {
+    document.getElementById("fechaAsistencia").value = new Date().toISOString().split('T')[0];
+    await cargarHistorialAsistencias();
+}
 
-// Arreglo global para retener los alumnos cargados en la vista actual
+// Arreglo global para retener los alumnos cargados
 let listaAlumnosCargados = [];
 
-// 1. CARGAR ALUMNOS DESDE EL BACKEND EN LA TABLA
+// 2. Cargar la lista de alumnos para pasar lista de forma fluida
 async function cargarTablaAlumnos() {
     try {
         const respuesta = await fetch('/api/alumnos');
+        
+        if (!respuesta.ok) {
+            throw new Error(`Error en el servidor: Código ${respuesta.status}`);
+        }
+        
         listaAlumnosCargados = await respuesta.json();
         
         const tbody = document.querySelector('#tablaAsistencia tbody');
         tbody.innerHTML = '';
         
-        if (listaAlumnosCargados.length === 0) {
+        if (!listaAlumnosCargados || listaAlumnosCargados.length === 0) {
             tbody.innerHTML = '<tr><td colspan="2" class="w3-center w3-text-grey">No hay alumnos registrados en el sistema.</td></tr>';
             return;
         }
@@ -175,7 +214,7 @@ async function cargarTablaAlumnos() {
                 <tr>
                     <td style="vertical-align: middle; font-weight: bold;">${alumno.nombre}</td>
                     <td>
-                        <input type="radio" class="w3-radio radio-asistencia" name="estado_${alumno.matricula}" value="Presente" id="pres_${alumno.matricula}" checked>
+                        <input type="radio" class="w3-radio radio-asistencia" name="estado_${alumno.matricula}" value="Asistencia" id="pres_${alumno.matricula}" checked>
                         <label class="label-radio" for="pres_${alumno.matricula}">Presente</label>
                         
                         <input type="radio" class="w3-radio radio-asistencia" name="estado_${alumno.matricula}" value="Falta" id="fal_${alumno.matricula}">
@@ -185,12 +224,45 @@ async function cargarTablaAlumnos() {
             `;
         });
     } catch (error) {
-        console.error("Error al cargar alumnos:", error);
-        alert("No se pudo cargar la lista de alumnos.");
+        console.error("Detalle del fallo al cargar alumnos:", error);
+        alert("No se pudo cargar la lista de alumnos. Revisa que tu servidor esté encendido.");
     }
 }
 
-// 2. GUARDAR LA ASISTENCIA DE TODOS LOS ALUMNOS
+// 3. Consultar y rellenar el historial de abajo
+async function cargarHistorialAsistencias() {
+    try {
+        const respuesta = await fetch('/api/asistencia');
+        const asistencias = await respuesta.json();
+        const tbody = document.querySelector('#tablaHistorial tbody');
+        
+        tbody.innerHTML = '';
+
+        if (asistencias.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="w3-center w3-text-grey w3-padding-16">No hay registros de asistencia en la base de datos.</td></tr>';
+            return;
+        }
+
+        asistencias.forEach(reg => {
+            const tr = document.createElement('tr');
+            
+            let colorBadge = 'w3-green';
+            if (reg.estado === 'Falta') colorBadge = 'w3-red';
+
+            tr.innerHTML = `
+                <td>${reg.fecha}</td>
+                <td>${reg.matricula}</td>
+                <td>${reg.nombre}</td>
+                <td><span class="badge-asistencia ${colorBadge}">${reg.estado}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        console.error("Fallo al cargar el historial:", error);
+    }
+}
+
+// 4. Procesar y guardar la asistencia masiva
 async function guardarAsistenciaMasiva() {
     const fecha = document.getElementById("fechaAsistencia").value;
     
@@ -208,7 +280,7 @@ async function guardarAsistenciaMasiva() {
     
     listaAlumnosCargados.forEach(alumno => {
         const radioSeleccionado = document.querySelector(`input[name="estado_${alumno.matricula}"]:checked`);
-        const estadoVal = radioSeleccionado ? radioSeleccionado.value : "Presente";
+        const estadoVal = radioSeleccionado ? radioSeleccionado.value : "Asistencia";
         
         asistenciasAAgregar.push({
             matricula: alumno.matricula,
@@ -229,14 +301,27 @@ async function guardarAsistenciaMasiva() {
 
             if (!respuesta.ok) {
                 errores++;
-                console.error(`❌ Error al guardar matrícula ${asistencia.matricula}: Código ${respuesta.status}`);
+                console.error(`❌ Error al guardar matrícula ${asistencia.matricula}`);
             }
         }
 
         if (errores === 0) {
             alert("¡Asistencia guardada con éxito en la base de datos!");
+            
+            // Resetear tabla superior
+            document.querySelector('#tablaAsistencia tbody').innerHTML = `
+                <tr>
+                    <td colspan="2" class="w3-center w3-text-grey w3-padding-16">
+                        Selecciona una fecha y haz clic en "Tomar Asistencia" para cargar el listado.
+                    </td>
+                </tr>
+            `;
+            listaAlumnosCargados = [];
+
+            // Refrescar tabla inferior sin trabas
+            await cargarHistorialAsistencias();
         } else {
-            alert(`Se procesaron los datos, pero hubo inconvenientes con ${errores} registros. Revisa la consola (F12) para ver los detalles.`);
+            alert(`Se procesaron los datos, pero hubo inconvenientes con ${errores} registros.`);
         }
 
     } catch (error) {

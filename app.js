@@ -201,6 +201,54 @@ app.post('/api/asistencia', (req, res) => {
 
 });
 
+// Obtener todos los alumnos
+app.get('/api/alumnos', (req, res) => {
+    try {
+        const alumnos = obtenerAlumnos();
+        res.json(alumnos); // <--- Revisa que devuelva el JSON correctamente
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
+        });
+    }
+});
+
+// Obtener el historial de asistencias con nombres de alumnos
+app.get('/api/asistencia', (req, res) => {
+    try {
+        let lista = [];
+        
+        try {
+            // Intento 1: Probar si tu tabla se llama "asistencia" (singular)
+            const stmt = db.prepare(`
+                SELECT asistencia.id, asistencia.matricula, asistencia.fecha, asistencia.estado, alumnos.nombre AS nombre
+                FROM asistencia
+                INNER JOIN alumnos ON asistencia.matricula = alumnos.matricula
+                ORDER BY asistencia.fecha DESC, alumnos.nombre ASC
+            `);
+            lista = stmt.all();
+        } catch (errSingular) {
+            // Intento 2: Si falló la anterior, probar con "asistencias" (plural)
+            const stmt = db.prepare(`
+                SELECT asistencias.id, asistencias.matricula, asistencias.fecha, asistencias.estado, alumnos.nombre AS nombre
+                FROM asistencias
+                INNER JOIN alumnos ON asistencias.matricula = alumnos.matricula
+                ORDER BY asistencias.fecha DESC, alumnos.nombre ASC
+            `);
+            lista = stmt.all();
+        }
+
+        res.json(lista);
+
+    } catch (error) {
+        console.error("Error definitivo en GET /api/asistencia:", error.message);
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
+        });
+    }
+});
 /* ==========================
    API PARTICIPACIONES
 ========================== */
