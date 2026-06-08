@@ -164,6 +164,26 @@ app.put('/api/alumnos/:matricula', (req,res)=>{
 /* ==========================
    API ASISTENCIA
 ========================== */
+app.get('/api/asistencia', (req, res) => {
+    try {
+        const stmt = db.prepare(`
+            SELECT *
+            FROM asistencias
+            WHERE DATE(fecha) = DATE('now', 'localtime')
+        `);
+
+        const lista = stmt.all();
+
+        res.json(lista);
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            mensaje: error.message
+        });
+    }
+});
+
 
 // Registrar asistencia de alumno
 app.post('/api/asistencia', (req, res) => {
@@ -336,6 +356,8 @@ app.get('/api/consultas', (req, res) => {
 
     res.json(datos);
 });
+
+
 
 const port = 3000;
 app.listen(port, () => {
